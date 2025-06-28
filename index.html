@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WEATHER-NOW</title>
+        <link rel="stylesheet" href="style.css">
+        <link id="favicon" rel="icon"
+            href="https://img.icons8.com/ios-filled/50/ffffff/partly-cloudy-day.png"
+            type="image/png">
+
+    </head>
+    <body>
+        <label class="themeToggle">
+            <input type="checkbox" id="theme-switch">
+            <div class="switch">
+                <div class="thumb">
+                    <span class="sun">☀️</span>
+                    <span class="moon">🌙</span>
+                </div>
+            </div>
+        </label>
+
+        <header class="appHeader">
+            <h1 class="appTitle">WeatherNow</h1>
+            <p class="appSubtitle">Get real-time weather info for any city
+                🌍</p>
+        </header>
+
+        <form class="weatherForm">
+            <input type="text" class="cityInput" placeholder="Enter city">
+            <button type="submit">Get Weather</button>
+        </form>
+
+        <div class="timeDateDisplay">
+            <p id="time">--:--:--</p>
+            <p id="date">Loading date...</p>
+        </div>
+
+        <div class="card" style="display: none">
+            <div class="loader" style="display: none;"></div>
+        </div>
+
+        <footer class="footer">
+            <p>Built with 💻 by Marouane Zgourra</p>
+        </footer>
+
+        <script src="theme.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>

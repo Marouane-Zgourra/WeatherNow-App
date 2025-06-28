@@ -1,0 +1,34 @@
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Environment files (for secrets like API keys, if used in future)
+.env
+.env.local
+
+# Editor folders
+.vscode/
+.idea/
+
+# Node.js (if you add it later)
+node_modules/
+
+# Build/compiled output (if using bundlers later)
+dist/
+build/
+
+# Mac specific
+__MACOSX/
+
+# Backup files
+*.bak
+*.tmp
+*~
+
+# OS generated files
+ehthumbs.db
+Desktop.ini

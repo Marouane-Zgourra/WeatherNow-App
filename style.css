@@ -1,0 +1,526 @@
+:root {
+    --card-max-width: 420px;
+    --form-max-width: 420px;
+    --input-font-size: clamp(1.2rem, 2vw, 2rem);
+    --button-font-size: clamp(1.2rem, 2vw, 2rem);
+    --title-font-size: clamp(2rem, 4vw, 3.5rem);
+    --subtitle-font-size: clamp(1rem, 2.2vw, 1.5rem);
+    --card-padding: clamp(20px, 4vw, 50px);
+}
+
+/* === Reset & Base === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: hsl(0, 0%, 95%);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* === Theme Classes === */
+body.light-mode {
+    background: linear-gradient(-45deg, #83a4d4, #b6fbff, #d4fc79, #96e6a1);
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite;
+    color: #222;
+}
+
+body.dark-mode {
+    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1a1a1a);
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite;
+    color: #f0f0f0;
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+body.light-mode .card,
+body.light-mode .weatherForm {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+body.dark-mode .card,
+body.dark-mode .weatherForm {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .cityInput {
+    background: #2c3e50;
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+body.dark-mode .weatherForm button {
+    background-color: #1e90ff;
+}
+
+body.dark-mode .weatherForm button:hover {
+    background-color: #1c86ee;
+}
+
+/* === Theme Toggle Switch === */
+.themeToggle {
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    z-index: 1100;
+    width: 60px;
+    height: 30px;
+}
+
+
+.themeToggle input {
+    display: none;
+}
+
+.themeToggle .switch {
+    width: 100%;
+    height: 100%;
+    background: #ccc;
+    border-radius: 50px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.themeToggle input:checked+.switch {
+    background: #4a90e2;
+}
+
+.themeToggle .thumb {
+    width: 26px;
+    height: 26px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.themeToggle input:checked+.switch .thumb {
+    transform: translateX(30px);
+}
+
+.themeToggle .sun,
+.themeToggle .moon {
+    position: absolute;
+    font-size: 16px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+
+.sun {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.moon {
+    opacity: 0;
+    transform: scale(0.7);
+}
+
+.themeToggle input:checked+.switch .sun {
+    opacity: 0;
+    transform: scale(0.7);
+}
+
+.themeToggle input:checked+.switch .moon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* === Title === */
+.appHeader {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    text-align: center;
+    padding: 10px 0;
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.3);
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 -1px 2px rgba(255, 255, 255, 0.3),
+        0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.appTitle {
+    font-size: var(--title-font-size);
+    font-weight: bold;
+    color: inherit;
+}
+
+.appSubtitle {
+    font-size: var(--subtitle-font-size);
+    color: inherit;
+    opacity: 0.7;
+}
+
+
+/* === Weather Form === */
+.weatherForm {
+    margin: 20px;
+    margin-top: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: var(--form-max-width);
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(12px);
+    padding: 16px;
+    border-radius: 15px;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.3s ease;
+}
+
+.cityInput {
+    padding: 10px 14px;
+    font-size: var(--input-font-size);
+    font-weight: bold;
+    border: 2px solid hsla(0, 0%, 20%, 0.3);
+    border-radius: 10px;
+    background: white;
+    color: #222;
+    width: 100%;
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: var(--button-font-size);
+    background-color: hsl(122, 39%, 50%);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    -webkit-transition: background-color 0.3s ease, transform 0.2s ease;
+    -moz-transition: background-color 0.3s ease, transform 0.2s ease;
+    -ms-transition: background-color 0.3s ease, transform 0.2s ease;
+    -o-transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: hsl(122, 39%, 40%);
+    transform: scale(1.05);
+}
+
+/* === Weather Card === */
+.card {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(12px);
+    padding: var(--card-padding);
+    margin-top: 120px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+    width: 100%;
+    max-width: var(--card-max-width);
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background 0.3s ease, color 0.3s ease;
+    transition: transform 0.4s ease, background 0.4s ease, color 0.4s ease;
+    animation: fadeIn 0.4s ease;
+    animation: fadeInScale 0.5s ease forwards;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+h1 {
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+p {
+    font-size: 1.5rem;
+    margin: 5px 0;
+}
+
+.cityDisplay, .tempDisplay {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: hsla(0, 0%, 0%, 0.8);
+    margin-bottom: 25px;
+}
+
+.humidityDisplay {
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.descDisplay {
+    font-style: italic;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.weatherEmoji {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin: 10px 0;
+}
+
+.errorDisplay {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: hsla(0, 0%, 0%, 0.75);
+}
+
+.forecastContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 12px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.forecastItem {
+    flex: 1 1 75px;
+    max-width: 80px;
+    min-width: 60px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 6px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.forecastItem:hover {
+    transform: scale(1.05);
+    -webkit-transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    -o-transform: scale(1.05);
+}
+
+.forecastItem img {
+    width: 40px;
+    height: 40px;
+    margin: 4px 0;
+}
+
+.forecastItem p {
+    font-size: 0.9rem;
+    margin: 2px 0;
+    line-height: 1.2;
+}
+
+.daySeparator {
+  width: 100%;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 12px 0 6px 0;
+  color: #444;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding-bottom: 4px;
+}
+
+/* === Responsive === */
+@media (max-width: 500px) {
+  .forecastContainer {
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .forecastItem {
+    flex: 1 1 40%;
+    max-width: 45%;
+  }
+}
+
+
+@media (min-width: 600px) {
+    .weatherForm {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .cityInput {
+        flex: 1;
+        margin-right: 10px;
+    }
+
+    .weatherForm button {
+        width: auto;
+    }
+}
+
+@media (max-width: 400px) {
+    .appTitle {
+        font-size: 2rem;
+    }
+
+    .appSubtitle {
+        font-size: 0.95rem;
+    }
+
+    .cityInput,
+    .weatherForm button {
+        font-size: 1.2rem;
+        padding: 8px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .themeToggle {
+        top: 10px;
+        right: 10px;
+        transform: scale(0.9);
+    }
+}
+
+@media (max-width: 480px) {
+    .weatherForm {
+        flex-direction: column;
+    }
+
+    .themeToggle {
+        top: 10px;
+        right: 10px;
+        transform: scale(0.9);
+    }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+    .weatherForm {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .weatherForm {
+        max-width: 600px;
+    }
+
+    .card {
+        max-width: 600px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .weatherForm {
+        max-width: 800px;
+        margin-top: 150px ;
+    }
+
+    .card {
+        max-width: 800px;
+    }
+}
+
+
+
+/* === Animations === */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.footer {
+    margin-top: auto;
+    padding: 10px;
+    font-size: 0.9rem;
+    color: inherit;
+    opacity: 0.6;
+    text-align: center;
+}
+
+.loader {
+    border: 6px solid rgba(0, 0, 0, 0.1);
+    border-top: 6px solid hsl(122, 39%, 50%);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.timeDateDisplay {
+    margin-top: 20px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(12px);
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+body.dark-mode .timeDateDisplay {
+    background: rgba(255, 255, 255, 0.05);
+    color: #f0f0f0;
+}
