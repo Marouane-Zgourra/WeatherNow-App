@@ -22,7 +22,7 @@
 
 ## 🧪 Live Demo
 
-🔗 [Live WeatherNow App](https://your-live-demo-link.com](https://marouane-zgourra.github.io/WeatherNow-App)
+🔗 [Live WeatherNow-App](https://marouane-zgourra.github.io/WeatherNow-App)
 ```
 
 ---
@@ -34,8 +34,8 @@ To run the project locally:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/weathernow.git
-cd weathernow
+git clone https://github.com/Marouane-Zgourra/WeatherNow-App.git
+cd WeatherNow-App
 ```
 
 2. Open `index.html` in your browser.
