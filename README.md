@@ -22,7 +22,7 @@
 
 ## 🧪 Live Demo
 
-🔗 [Live WeatherNow App]([https://your-live-demo-link.com](https://marouane-zgourra.github.io/WeatherNow-App))
+🔗 [Live WeatherNow App](https://your-live-demo-link.com](https://marouane-zgourra.github.io/WeatherNow-App)
 ```
 
 ---
