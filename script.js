@@ -8,7 +8,7 @@ const apiKey = "bf4e33eabc6aca3226dc0a7d82de72fc";
 /* === Form Submit Handler === */
 weatherForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-  const city = cityInput.value;
+  const city = cityInput.value.trim();
 
   if (city) {
     showLoader(true);
@@ -18,7 +18,7 @@ weatherForm.addEventListener("submit", async (event) => {
       displayForecastInfo(WeatherData.forecast);
     } catch (error) {
       console.error(error);
-      displayError(error);
+      displayError(error.message || error);
     } finally {
       showLoader(false);
     }
@@ -29,8 +29,12 @@ weatherForm.addEventListener("submit", async (event) => {
 
 /* === Fetch Weather Data from API === */
 async function getWeatherData(city) {
-  const currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
-  const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
+  const currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
+    city
+  )}&appid=${apiKey}`;
+  const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(
+    city
+  )}&appid=${apiKey}`;
 
   const [currentResponse, forecastResponse] = await Promise.all([
     fetch(currentUrl),
@@ -52,7 +56,7 @@ function displayWeatherInfo(data) {
   const {
     name: city,
     main: { temp, humidity },
-    weather: [{ description, id }],
+    weather: [{ description }],
   } = data;
 
   card.textContent = "";
@@ -62,12 +66,12 @@ function displayWeatherInfo(data) {
   const tempDisplay = document.createElement("p");
   const humidityDisplay = document.createElement("p");
   const descDisplay = document.createElement("p");
-  const weatherEmoji = document.createElement("p");
 
   cityDisplay.textContent = city;
   tempDisplay.textContent = `${(temp - 273.15).toFixed(1)}°C`;
   humidityDisplay.textContent = `Humidity: ${humidity}%`;
   descDisplay.textContent = description;
+
   const iconCode = data.weather[0].icon;
   const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@4x.png`;
 
@@ -80,7 +84,6 @@ function displayWeatherInfo(data) {
   tempDisplay.classList.add("tempDisplay");
   humidityDisplay.classList.add("humidityDisplay");
   descDisplay.classList.add("descDisplay");
-  weatherEmoji.classList.add("weatherEmoji");
 
   card.appendChild(cityDisplay);
   card.appendChild(tempDisplay);
@@ -94,22 +97,18 @@ function displayForecastInfo(forecastData) {
   const forecastContainer = document.createElement("div");
   forecastContainer.classList.add("forecastContainer");
 
-
   const sliced = forecastData.list.slice(0, 8);
-
   let lastDay = null;
 
   sliced.forEach((item) => {
     const date = new Date(item.dt * 1000);
-    const dayName = date.toLocaleDateString(undefined, { weekday: "short" }); // e.g. Mon, Tue
+    const dayName = date.toLocaleDateString(undefined, { weekday: "short" });
     const today = new Date();
-
 
     let dayLabel;
     if (date.toDateString() === today.toDateString()) {
       dayLabel = "Today";
     } else {
-
       const tomorrow = new Date(today);
       tomorrow.setDate(today.getDate() + 1);
       if (date.toDateString() === tomorrow.toDateString()) {
@@ -118,7 +117,6 @@ function displayForecastInfo(forecastData) {
         dayLabel = dayName;
       }
     }
-
 
     if (dayLabel !== lastDay) {
       const separator = document.createElement("div");
@@ -140,7 +138,7 @@ function displayForecastInfo(forecastData) {
     forecastItem.classList.add("forecastItem");
     forecastItem.innerHTML = `
       <p>${time}</p>
-      <img src="${iconUrl}" alt="" />
+      <img src="${iconUrl}" alt="Weather icon" />
       <p>${temp}</p>
     `;
 
@@ -165,6 +163,8 @@ function getWeatherByCoords(lat, lon) {
   const currentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`;
   const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
 
+  showLoader(true);
+
   Promise.all([fetch(currentUrl), fetch(forecastUrl)])
     .then(async ([curRes, foreRes]) => {
       if (!curRes.ok || !foreRes.ok) throw new Error("Location fetch failed");
@@ -173,7 +173,10 @@ function getWeatherByCoords(lat, lon) {
       displayWeatherInfo(current);
       displayForecastInfo(forecast);
     })
-    .catch((err) => displayError("Location weather not available"));
+    .catch(() => displayError("Location weather not available"))
+    .finally(() => {
+      showLoader(false);
+    });
 }
 window.getWeatherByCoords = getWeatherByCoords;
 
@@ -183,7 +186,7 @@ function showLoader(show) {
     card.style.display = "flex";
     loader.style.display = "block";
 
-    [...card.children].forEach(child => {
+    [...card.children].forEach((child) => {
       if (child !== loader) child.remove();
     });
   } else {
@@ -204,7 +207,7 @@ function updateTimeDate() {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-    hour12: false
+    hour12: false,
   });
 
   const date = now.toLocaleDateString([], {
@@ -222,4 +225,16 @@ function updateTimeDate() {
 document.addEventListener("DOMContentLoaded", () => {
   updateTimeDate();
   setInterval(updateTimeDate, 1000);
+
+  // === Geolocation Code (runs on page load) ===
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        getWeatherByCoords(position.coords.latitude, position.coords.longitude);
+      },
+      () => {
+        console.warn("User denied geolocation");
+      }
+    );
+  }
 });
