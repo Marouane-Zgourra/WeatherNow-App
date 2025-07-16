@@ -1,4 +1,5 @@
 :root {
+    /* Max widths and font sizes for responsive scaling */
     --card-max-width: 420px;
     --form-max-width: 420px;
     --input-font-size: clamp(1.2rem, 2vw, 2rem);
@@ -15,6 +16,7 @@
     box-sizing: border-box;
 }
 
+/* Base styles and layout for body */
 body {
     font-family: Arial, sans-serif;
     background-color: hsl(0, 0%, 95%);
@@ -28,6 +30,7 @@ body {
 }
 
 /* === Theme Classes === */
+/* Light mode background animation and text color */
 body.light-mode {
     background: linear-gradient(-45deg, #83a4d4, #b6fbff, #d4fc79, #96e6a1);
     background-size: 400% 400%;
@@ -35,6 +38,7 @@ body.light-mode {
     color: #222;
 }
 
+/* Dark mode background animation and text color */
 body.dark-mode {
     background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1a1a1a);
     background-size: 400% 400%;
@@ -42,21 +46,20 @@ body.dark-mode {
     color: #f0f0f0;
 }
 
+/* Gradient animation keyframes */
 @keyframes gradientMove {
     0% {
         background-position: 0% 50%;
     }
-
     50% {
         background-position: 100% 50%;
     }
-
     100% {
         background-position: 0% 50%;
     }
 }
 
-
+/* Light and dark mode backgrounds for form and card */
 body.light-mode .card,
 body.light-mode .weatherForm {
     background: rgba(255, 255, 255, 0.3);
@@ -67,12 +70,14 @@ body.dark-mode .weatherForm {
     background: rgba(255, 255, 255, 0.05);
 }
 
+/* Dark mode input styling */
 body.dark-mode .cityInput {
     background: #2c3e50;
     color: white;
     border: 2px solid rgba(255, 255, 255, 0.15);
 }
 
+/* Dark mode button styles */
 body.dark-mode .weatherForm button {
     background-color: #1e90ff;
 }
@@ -82,6 +87,7 @@ body.dark-mode .weatherForm button:hover {
 }
 
 /* === Theme Toggle Switch === */
+/* Position and size of toggle */
 .themeToggle {
     position: fixed;
     top: 15px;
@@ -91,11 +97,12 @@ body.dark-mode .weatherForm button:hover {
     height: 30px;
 }
 
-
+/* Hide the native checkbox input */
 .themeToggle input {
     display: none;
 }
 
+/* Toggle background styling */
 .themeToggle .switch {
     width: 100%;
     height: 100%;
@@ -106,10 +113,12 @@ body.dark-mode .weatherForm button:hover {
     transition: background 0.3s ease;
 }
 
-.themeToggle input:checked+.switch {
+/* Toggle background when checked */
+.themeToggle input:checked + .switch {
     background: #4a90e2;
 }
 
+/* Thumb (circle) inside toggle */
 .themeToggle .thumb {
     width: 26px;
     height: 26px;
@@ -125,10 +134,12 @@ body.dark-mode .weatherForm button:hover {
     transition: transform 0.3s ease;
 }
 
-.themeToggle input:checked+.switch .thumb {
+/* Thumb moves when toggle is checked */
+.themeToggle input:checked + .switch .thumb {
     transform: translateX(30px);
 }
 
+/* Sun and moon icons inside toggle */
 .themeToggle .sun,
 .themeToggle .moon {
     position: absolute;
@@ -137,27 +148,31 @@ body.dark-mode .weatherForm button:hover {
     pointer-events: none;
 }
 
+/* Sun icon visible by default */
 .sun {
     opacity: 1;
     transform: scale(1);
 }
 
+/* Moon icon hidden by default */
 .moon {
     opacity: 0;
     transform: scale(0.7);
 }
 
-.themeToggle input:checked+.switch .sun {
+/* Toggle icons visibility swap on checked */
+.themeToggle input:checked + .switch .sun {
     opacity: 0;
     transform: scale(0.7);
 }
 
-.themeToggle input:checked+.switch .moon {
+.themeToggle input:checked + .switch .moon {
     opacity: 1;
     transform: scale(1);
 }
 
 /* === Title === */
+/* Fixed header styling */
 .appHeader {
     width: 100%;
     position: fixed;
@@ -173,6 +188,7 @@ body.dark-mode .weatherForm button:hover {
         0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Title and subtitle font sizes */
 .appTitle {
     font-size: var(--title-font-size);
     font-weight: bold;
@@ -185,11 +201,10 @@ body.dark-mode .weatherForm button:hover {
     opacity: 0.7;
 }
 
-
 /* === Weather Form === */
 .weatherForm {
     margin: 20px;
-    margin-top: 120px;
+    margin-top: 120px; /* space for fixed header */
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -199,11 +214,11 @@ body.dark-mode .weatherForm button:hover {
     backdrop-filter: blur(12px);
     padding: 16px;
     border-radius: 15px;
-    backdrop-filter: blur(6px);
     border: 1px solid rgba(255, 255, 255, 0.15);
     transition: all 0.3s ease;
 }
 
+/* Input styling */
 .cityInput {
     padding: 10px 14px;
     font-size: var(--input-font-size);
@@ -215,6 +230,7 @@ body.dark-mode .weatherForm button:hover {
     width: 100%;
 }
 
+/* Submit button styling */
 button[type="submit"] {
     padding: 10px 20px;
     font-weight: bold;
@@ -225,18 +241,16 @@ button[type="submit"] {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    -webkit-transition: background-color 0.3s ease, transform 0.2s ease;
-    -moz-transition: background-color 0.3s ease, transform 0.2s ease;
-    -ms-transition: background-color 0.3s ease, transform 0.2s ease;
-    -o-transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* Submit button hover effect */
 button[type="submit"]:hover {
     background-color: hsl(122, 39%, 40%);
     transform: scale(1.05);
 }
 
 /* === Weather Card === */
+/* Card container styling and animation */
 .card {
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(12px);
@@ -252,28 +266,23 @@ button[type="submit"]:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: background 0.3s ease, color 0.3s ease;
-    transition: transform 0.4s ease, background 0.4s ease, color 0.4s ease;
-    animation: fadeIn 0.4s ease;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.4s ease;
     animation: fadeInScale 0.5s ease forwards;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    -ms-border-radius: 15px;
-    -o-border-radius: 15px;
 }
 
+/* Fade and scale animation keyframes */
 @keyframes fadeInScale {
     from {
         opacity: 0;
         transform: scale(0.95);
     }
-
     to {
         opacity: 1;
         transform: scale(1);
     }
 }
 
+/* Headings and paragraph spacing */
 h1 {
     margin-top: 0;
     margin-bottom: 25px;
@@ -284,7 +293,9 @@ p {
     margin: 5px 0;
 }
 
-.cityDisplay, .tempDisplay {
+/* Specific weather info text styles */
+.cityDisplay,
+.tempDisplay {
     font-size: 3.5rem;
     font-weight: bold;
     color: hsla(0, 0%, 0%, 0.8);
@@ -302,6 +313,7 @@ p {
     font-size: 2rem;
 }
 
+/* Weather icon style */
 .weatherEmoji {
     width: 100px;
     height: 100px;
@@ -309,12 +321,14 @@ p {
     margin: 10px 0;
 }
 
+/* Error message styling */
 .errorDisplay {
     font-size: 2.5rem;
     font-weight: bold;
     color: hsla(0, 0%, 0%, 0.75);
 }
 
+/* === Forecast Container === */
 .forecastContainer {
     display: flex;
     flex-wrap: wrap;
@@ -324,6 +338,7 @@ p {
     width: 100%;
 }
 
+/* Individual forecast item styling */
 .forecastItem {
     flex: 1 1 75px;
     max-width: 80px;
@@ -336,26 +351,26 @@ p {
     transition: transform 0.3s ease;
 }
 
+/* Forecast item hover scaling */
 .forecastItem:hover {
     transform: scale(1.05);
-    -webkit-transform: scale(1.05);
-    -moz-transform: scale(1.05);
-    -ms-transform: scale(1.05);
-    -o-transform: scale(1.05);
 }
 
+/* Forecast icons */
 .forecastItem img {
     width: 40px;
     height: 40px;
     margin: 4px 0;
 }
 
+/* Forecast text */
 .forecastItem p {
     font-size: 0.9rem;
     margin: 2px 0;
     line-height: 1.2;
 }
 
+/* Day separator styling in forecast */
 .daySeparator {
   width: 100%;
   font-weight: bold;
@@ -366,7 +381,7 @@ p {
   padding-bottom: 4px;
 }
 
-/* === Responsive === */
+/* === Responsive Styling === */
 @media (max-width: 500px) {
   .forecastContainer {
     justify-content: center;
@@ -378,7 +393,6 @@ p {
     max-width: 45%;
   }
 }
-
 
 @media (min-width: 600px) {
     .weatherForm {
@@ -465,21 +479,20 @@ p {
     }
 }
 
-
-
 /* === Animations === */
+/* Fade in and slide up for smoother UI */
 @keyframes fadeIn {
     from {
         opacity: 0;
         transform: translateY(10px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
+/* Footer styling */
 .footer {
     margin-top: auto;
     padding: 10px;
@@ -489,6 +502,7 @@ p {
     text-align: center;
 }
 
+/* Loader spinner styles */
 .loader {
     border: 6px solid rgba(0, 0, 0, 0.1);
     border-top: 6px solid hsl(122, 39%, 50%);
@@ -499,12 +513,14 @@ p {
     margin: 20px auto;
 }
 
+/* Spin animation for loader */
 @keyframes spin {
     to {
         transform: rotate(360deg);
     }
 }
 
+/* Time and Date display container */
 .timeDateDisplay {
     margin-top: 20px;
     text-align: center;
@@ -520,6 +536,7 @@ p {
     transition: all 0.3s ease;
 }
 
+/* Dark mode style for time and date */
 body.dark-mode .timeDateDisplay {
     background: rgba(255, 255, 255, 0.05);
     color: #f0f0f0;
