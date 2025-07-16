@@ -97,7 +97,7 @@ function displayForecastInfo(forecastData) {
   const forecastContainer = document.createElement("div");
   forecastContainer.classList.add("forecastContainer");
 
-  const sliced = forecastData.list.slice(0, 8);
+  const sliced = forecastData.list.slice(0, 10);
   let lastDay = null;
 
   sliced.forEach((item) => {
