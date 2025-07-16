@@ -89,7 +89,7 @@ function displayForecastInfo(forecastData) {
   const forecastContainer = document.createElement("div");
   forecastContainer.classList.add("forecastContainer");
 
-  // Slice 8 timestamps (3-hour intervals)
+
   const sliced = forecastData.list.slice(0, 8);
 
   let lastDay = null;
@@ -99,12 +99,12 @@ function displayForecastInfo(forecastData) {
     const dayName = date.toLocaleDateString(undefined, { weekday: "short" }); // e.g. Mon, Tue
     const today = new Date();
 
-    // Decide label for day
+
     let dayLabel;
     if (date.toDateString() === today.toDateString()) {
       dayLabel = "Today";
     } else {
-      // Check if tomorrow
+
       const tomorrow = new Date(today);
       tomorrow.setDate(today.getDate() + 1);
       if (date.toDateString() === tomorrow.toDateString()) {
@@ -114,7 +114,7 @@ function displayForecastInfo(forecastData) {
       }
     }
 
-    // Add day separator if new day
+
     if (dayLabel !== lastDay) {
       const separator = document.createElement("div");
       separator.classList.add("daySeparator");
@@ -171,10 +171,16 @@ function getWeatherByCoords(lat, lon) {
 window.getWeatherByCoords = getWeatherByCoords;
 
 function showLoader(show) {
+  const loader = document.getElementById("loader");
+
   if (show) {
-    loader.style.display = "block";
     card.style.display = "flex";
-    card.textContent = "";
+    loader.style.display = "block";
+
+    [...card.children].forEach((child) => {
+      if (child.id !== "loader") child.remove();
+    });
+
   } else {
     loader.style.display = "none";
   }
