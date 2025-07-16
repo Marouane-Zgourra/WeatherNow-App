@@ -129,6 +129,7 @@ function displayForecastInfo(forecastData) {
     const time = date.toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
+      hour12: false,
     });
 
     const temp = `${(item.main.temp - 273.15).toFixed(1)}°C`;
@@ -173,7 +174,8 @@ function getWeatherByCoords(lat, lon) {
       displayWeatherInfo(current);
       displayForecastInfo(forecast);
     })
-    .catch(() => displayError("Location weather not available"))
+    // Added user-facing message for geolocation permission denied or location error
+    .catch(() => displayError("Location permission denied, please enter a city manually."))
     .finally(() => {
       showLoader(false);
     });
@@ -234,6 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       () => {
         console.warn("User denied geolocation");
+        displayError("Location permission denied, please enter a city manually.");
       }
     );
   }
