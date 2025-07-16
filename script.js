@@ -1,9 +1,11 @@
+/* === DOM Elements === */
 const weatherForm = document.querySelector(".weatherForm");
 const cityInput = document.querySelector(".cityInput");
 const card = document.querySelector(".card");
-const loader = document.querySelector(".loader");
+const loader = document.getElementById("loader");
 const apiKey = "bf4e33eabc6aca3226dc0a7d82de72fc";
 
+/* === Form Submit Handler === */
 weatherForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const city = cityInput.value;
@@ -25,6 +27,7 @@ weatherForm.addEventListener("submit", async (event) => {
   }
 });
 
+/* === Fetch Weather Data from API === */
 async function getWeatherData(city) {
   const currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
   const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
@@ -44,6 +47,7 @@ async function getWeatherData(city) {
   return { current: currentData, forecast: forecastData };
 }
 
+/* === Display Current Weather Information === */
 function displayWeatherInfo(data) {
   const {
     name: city,
@@ -85,6 +89,7 @@ function displayWeatherInfo(data) {
   card.appendChild(weatherIcon);
 }
 
+/* === Display Weather Forecast Information === */
 function displayForecastInfo(forecastData) {
   const forecastContainer = document.createElement("div");
   forecastContainer.classList.add("forecastContainer");
@@ -145,6 +150,7 @@ function displayForecastInfo(forecastData) {
   card.appendChild(forecastContainer);
 }
 
+/* === Display Error Messages === */
 function displayError(message) {
   const errorDisplay = document.createElement("p");
   errorDisplay.textContent = message;
@@ -154,6 +160,7 @@ function displayError(message) {
   card.appendChild(errorDisplay);
 }
 
+/* === Fetch Weather Data Using Coordinates === */
 function getWeatherByCoords(lat, lon) {
   const currentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`;
   const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
@@ -170,22 +177,21 @@ function getWeatherByCoords(lat, lon) {
 }
 window.getWeatherByCoords = getWeatherByCoords;
 
+/* === Show or Hide Loader === */
 function showLoader(show) {
-  const loader = document.getElementById("loader");
-
   if (show) {
     card.style.display = "flex";
     loader.style.display = "block";
 
-    [...card.children].forEach((child) => {
-      if (child.id !== "loader") child.remove();
+    [...card.children].forEach(child => {
+      if (child !== loader) child.remove();
     });
-
   } else {
     loader.style.display = "none";
   }
 }
 
+/* === Update Time and Date Display === */
 function updateTimeDate() {
   const timeEl = document.getElementById("time");
   const dateEl = document.getElementById("date");
@@ -198,6 +204,7 @@ function updateTimeDate() {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
+    hour12: false
   });
 
   const date = now.toLocaleDateString([], {
@@ -211,6 +218,7 @@ function updateTimeDate() {
   dateEl.textContent = date;
 }
 
+/* === Initialize Time and Date on DOM Load === */
 document.addEventListener("DOMContentLoaded", () => {
   updateTimeDate();
   setInterval(updateTimeDate, 1000);
