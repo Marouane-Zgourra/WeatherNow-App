@@ -501,9 +501,31 @@ p {
     opacity: 0.6;
     text-align: center;
 }
-.footer a{
-    text-decoration:"none";
-    color:#2fa8a0;
+/* Light Theme */
+.light-mode .footer a,
+.light-mode .footer a:visited,
+.light-mode .footer a:active {
+  color: #1e40af;
+  text-decoration: none;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+.light-mode .footer a:hover,
+.light-mode .footer a:focus {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+/* Dark Theme */
+.dark-mode .footer a,
+.dark-mode .footer a:visited,
+.dark-mode .footer a:active {
+  color: #60a5fa;
+  text-decoration: none;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+.dark-mode .footer a:hover,
+.dark-mode .footer a:focus {
+  color: #93c5fd;
+  text-decoration: underline;
 }
 
 /* Loader spinner styles */
