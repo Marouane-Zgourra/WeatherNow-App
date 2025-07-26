@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <script>
+  <head>
+    <script>
     (function () {
       const savedTheme = localStorage.getItem('theme');
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -11,68 +11,65 @@
     })();
   </script>
 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WEATHER-NOW</title>
-  <link rel="stylesheet" href="style.css" />
-  <link
-    id="favicon"
-    rel="icon"
-    href="https://img.icons8.com/ios-filled/50/ffffff/partly-cloudy-day.png"
-    type="image/png"
-  />
-</head>
-<body>
-  <label class="themeToggle">
-    <input type="checkbox" id="theme-switch" />
-    <div class="switch">
-      <div class="thumb">
-        <span class="sun">☀️</span>
-        <span class="moon">🌙</span>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WEATHER-NOW</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      id="favicon"
+      rel="icon"
+      href="https://img.icons8.com/ios-filled/50/ffffff/partly-cloudy-day.png"
+      type="image/png" />
+  </head>
+  <body>
+    <label class="themeToggle">
+      <input type="checkbox" id="theme-switch" />
+      <div class="switch">
+        <div class="thumb">
+          <span class="sun">☀️</span>
+          <span class="moon">🌙</span>
+        </div>
       </div>
+    </label>
+
+    <header class="appHeader">
+      <h1 class="appTitle">WeatherNow</h1>
+      <p class="appSubtitle">Get real-time weather info for any city 🌍</p>
+    </header>
+
+    <form class="weatherForm">
+      <input
+        type="text"
+        class="cityInput"
+        placeholder="Enter city"
+        aria-label="City name"
+        required />
+      <button type="submit">Get Weather</button>
+    </form>
+
+    <div class="timeDateDisplay">
+      <p id="time">--:--:--</p>
+      <p id="date">Loading date...</p>
     </div>
-  </label>
 
-  <header class="appHeader">
-    <h1 class="appTitle">WeatherNow</h1>
-    <p class="appSubtitle">Get real-time weather info for any city 🌍</p>
-  </header>
+    <div class="card" style="display: none">
+      <div id="loader" class="loader" style="display: none;"></div>
+    </div>
 
-  <form class="weatherForm">
-    <input
-      type="text"
-      class="cityInput"
-      placeholder="Enter city"
-      aria-label="City name"
-      required
-    />
-    <button type="submit">Get Weather</button>
-  </form>
+    <footer class="footer">
+      <p>
+        Built with 💻 by
+        <a
+          href="https://github.com/Marouane-Zgourra"
+          class="footer-link"
+          target="_blank"
+          rel="noopener noreferrer">
+          Marouane Zgourra
+        </a>
+      </p>
+    </footer>
 
-  <div class="timeDateDisplay">
-    <p id="time">--:--:--</p>
-    <p id="date">Loading date...</p>
-  </div>
-
-  <div class="card" style="display: none">
-    <div id="loader" class="loader" style="display: none;"></div>
-  </div>
-
-  <footer class="footer">
-    <p>
-      Built with 💻 by
-      <a
-        href="https://github.com/Marouane-Zgourra"
-        class="footer-link"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Marouane Zgourra
-      </a>
-    </p>
-  </footer>
-
-  <script src="theme.js" defer></script>
-  <script src="script.js"></script>
-</body>
+    <script src="theme.js" defer></script>
+    <script src="script.js"></script>
+  </body>
 </html>
